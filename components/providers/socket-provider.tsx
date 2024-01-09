@@ -13,14 +13,16 @@ const SocketContext = createContext<SocketContextType>({
   isConnected: false,
 });
 
-export const useSocket = () => useContext(SocketContext);
+export const useSocket = () => {
+  return useContext(SocketContext);
+};
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socketIstance = new (ClientIO as any)(
+    const socketInstance = new (ClientIO as any)(
       process.env.NEXT_PUBLIC_SITE_URL!,
       {
         path: "/api/socket/io",
@@ -28,15 +30,19 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       }
     );
 
-    socketIstance.on("connect", () => {
+    socketInstance.on("connect", () => {
       setIsConnected(true);
     });
 
-    socketIstance.on("disconnect", () => {
+    socketInstance.on("disconnect", () => {
       setIsConnected(false);
     });
 
-    return () => socketIstance.disconnect();
+    setSocket(socketInstance);
+
+    return () => {
+      socketInstance.disconnect();
+    };
   }, []);
 
   return (

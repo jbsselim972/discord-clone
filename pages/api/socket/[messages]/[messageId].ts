@@ -1,12 +1,12 @@
 import { currentProfilePages } from "@/lib/current-profile-pages";
 import { db } from "@/lib/db";
-import { NextApiResponseServerIO } from "@/types";
+import { NextApiResponseServerIo } from "@/types";
 import { MemberRole } from "@prisma/client";
 import { NextApiRequest } from "next";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponseServerIO
+  res: NextApiResponseServerIo
 ) {
   if (req.method !== "DELETE" && req.method !== "PATCH") {
     return res.status(405).json({ error: "Method not allowed" });
