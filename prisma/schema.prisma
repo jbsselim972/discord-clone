@@ -90,7 +90,7 @@ model Channel {
   messages Message[]
 
   createdAt DateTime @default(now())
-  updated   DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 
   @@index([profileId])
   @@index([serverId])
